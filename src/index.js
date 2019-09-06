@@ -6,9 +6,8 @@ const routes = require("./routes");
 
 const server = express();
 
-mongoose
-  .connect(process.env.MONGO_URL, { useNewUrlParser: true });
+mongoose.connect(process.env.MONGO_URL, { useNewUrlParser: true });
 server.use(cors());
 server.use(express.json());
 server.use(routes);
-server.listen(4000);
+server.listen(process.env.PORT || 4000);
