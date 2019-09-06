@@ -7,24 +7,8 @@ const routes = require("./routes");
 const server = express();
 
 mongoose
-  .connect("mongodb://mongodb/falamarujo", { useNewUrlParser: true })
-  .then(() => {
-    console.log("#############################################");
-    console.log("Connected to MongoDB");
-    console.log("#############################################");
-  })
-  .catch(err => {
-    console.log("#############################################");
-    console.log(err);
-    console.log("#############################################");
-    process.exit(1); //quit the process
-  });
-
+  .connect(process.env.MONGO_URL, { useNewUrlParser: true });
 server.use(cors());
 server.use(express.json());
 server.use(routes);
-server.listen(4000, () => {
-  console.log("#############################################");
-  console.log("NodeJS and Express Strated.");
-  console.log("#############################################");
-});
+server.listen(4000);
