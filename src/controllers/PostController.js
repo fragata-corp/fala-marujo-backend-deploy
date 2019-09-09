@@ -13,7 +13,7 @@ module.exports = {
 
   async store(req, res) {
     if (req.headers.user) {
-      const userExist = await User.findById(req.headers.user);
+      const userExist = await User.findById({ id: req.headers.user });
       const data = req.body;
       if (userExist && data) {
         const post = await Post.create({
@@ -21,7 +21,7 @@ module.exports = {
           description: data.description,
           url: data.url,
           avatar: data.avatar,
-          author: "5d765cf6f140480021a5f3ab"
+          author: userExist
         });
         return res.json(post);
       }
