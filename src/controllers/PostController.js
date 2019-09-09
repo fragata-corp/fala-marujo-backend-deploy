@@ -12,17 +12,20 @@ module.exports = {
   },
 
   async store(req, res) {
-    const author = req.params.id;
-    const data = req.body;
-    const post = await Post.create({
-      title: data.title,
-      description: data.description,
-      url: data.url,
-      avatar: data.avatar,
-      author
-    });
+    const { user } = req.headers;
+    const userExist = await User.findOne({ _id: user });
 
-    return res.json(post);
+    const data = req.body;
+    if (userExist && data) {
+      const post = await Post.create({
+        title: data.title,
+        description: data.description,
+        url: data.url,
+        avatar: data.avatar,
+        author: userExist
+      });
+      return res.json(post);
+    }
   },
   async update(req, res) {
     const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
