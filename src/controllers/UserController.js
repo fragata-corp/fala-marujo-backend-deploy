@@ -27,15 +27,7 @@ module.exports = {
     if (req.body.email) {
       const userExist = await User.findOne({ email: req.body.email });
       if (!userExist) {
-        const user = await User.create({
-          name: user.name,
-          email: user.email,
-          fone: user.fone,
-          avatar: user.avatar,
-          address: user.address,
-          bio: req.body.bio,
-          password: generatePassword(12, false)
-        });
+        const user = await User.create(req.body);
         if (user) {
           Email.Send(user.email, user.password); //Enviar id do usuario no header da url
         }
