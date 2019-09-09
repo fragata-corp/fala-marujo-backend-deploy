@@ -5,22 +5,22 @@ const nodemailer = require("nodemailer");
 const smtpTransport = require("nodemailer-smtp-transport");
 
 module.exports = {
-  async Send(id) {
+  async Send(email, senha) {
     const transporter = nodemailer.createTransport(
       smtpTransport({
-        service: "gmail",
-        host: "smtp.gmail.com",
+        service: process.env.MAIL_SERVICE,
+        host: process.env.MAIL_HOST,
         auth: {
-          user: "SeuUser@gmail.com",
-          pass: "SuaSenha"
+          user: process.env.MAIL_USERNAME,
+          pass: process.env.MAIL_PASSWORD
         }
       })
     );
     const mailOptions = {
-      from: "author@gmail.com",
-      to: "quemRecebe@gmail.com",
+      from: process.env.MAIL_USERNAME,
+      to: email,
       subject: "Confirmação de login",
-      text: `Clique no link para tivar seu login: http://localhost:4000/users/active/${id}` //id do usuario criado
+      text: `Sua senha é ${senha}`
     };
 
     await transporter.sendMail(mailOptions, function(error, info) {

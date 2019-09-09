@@ -10,10 +10,6 @@ const DislikeController = require("./controllers/DislikeController");
 
 routes.post("/login", UserController.signIn);
 
-//Active User
-
-routes.get("/users/active/:id", UserController.ActiveUser);
-
 //User
 routes.get("/users", UserController.index);
 routes.get("/users/:id", UserController.show);

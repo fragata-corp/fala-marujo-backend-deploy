@@ -1,33 +1,54 @@
 const User = require("../models/User");
-const Email = require("./Email");
+const Email = require("../services/Email");
+const generatePassword = require("password-generator");
 module.exports = {
   async index(req, res) {
     const user = await User.find();
-    return res.json(user);
+    return res.json({
+      name: user.name,
+      email: user.email,
+      fone: user.fone,
+      avatar: user.avatar,
+      address: user.address
+    });
   },
   async show(req, res) {
     const user = await User.findById(req.params.id);
-    return res.json(user);
+    return res.json({
+      name: user.name,
+      email: user.email,
+      fone: user.fone,
+      avatar: user.avatar,
+      address: user.address
+    });
   },
   //Create user
   async store(req, res) {
-    if (req.body.email && req.body.password) {
-      if (req.body.password2 && req.body.password === req.body.password2) {
-        const userExist = await User.findOne({ email: req.body.email });
-        if (!userExist) {
-          const user = await User.create(req.body);
-          if (user) {
-            Email.Send(user._id); //Enviar id do usuario no header da url
-          }
-          return res.json({
-            ok: true,
-            message:
-              "Usuário cadastrado com sucesso!! Verifique sua caixa de e-mail para continuar"
-          });
+    if (req.body.email) {
+      const userExist = await User.findOne({ email: req.body.email });
+      if (!userExist) {
+        const user = await User.create({
+          name: user.name,
+          email: user.email,
+          fone: user.fone,
+          avatar: user.avatar,
+          address: user.address,
+          bio: req.body.bio,
+          password: generatePassword(12, false)
+        });
+        if (user) {
+          Email.Send(user.email, user.password); //Enviar id do usuario no header da url
         }
-        return res.json({ error: "Usuário indisponivel" });
+        return res.json({
+          ok: true,
+          message:
+            "Usuário cadastrado com sucesso!! Verifique sua caixa de e-mail para continuar"
+        });
       }
+
+      return res.json({ error: "Usuário indisponivel" });
     }
+
     return res.send(404);
   },
 
@@ -41,12 +62,6 @@ module.exports = {
       if (!user || !isMatch) {
         return res.status(404).json({ error: "Usuário ou senha invalida" });
       }
-      // verificar se o usuario está ativo
-      if (user.isActive !== "true") {
-        return res.status(404).json({
-          error: "Usuário inativo!! Verifique sua caixa de email para ativalo"
-        });
-      }
       return res.json(user);
     } catch (error) {
       return res.status(404).json({ error: "Usuario ou senha invalida!!" });
@@ -58,13 +73,6 @@ module.exports = {
       new: true
     });
     return res.json(user);
-  },
-
-  async ActiveUser(req, res) {
-    await User.findByIdAndUpdate(req.params.id, {
-      isActive: true
-    });
-    return res.send("Usuário ativado!!");
   },
 
   async destroy(req, res) {

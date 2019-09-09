@@ -15,16 +15,6 @@ const UserSchema = new Schema(
       type: String,
       required: true
     },
-    isAdmin: {
-      type: String,
-      required: true,
-      default: false
-    },
-    isActive: {
-      type: String,
-      required: true,
-      default: false
-    },
     bio: String,
     fone: {
       type: String,
