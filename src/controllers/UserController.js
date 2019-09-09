@@ -27,7 +27,16 @@ module.exports = {
     if (req.body.email) {
       const userExist = await User.findOne({ email: req.body.email });
       if (!userExist) {
-        const user = await User.create(req.body);
+        const user = await User.create({
+          name: req.body.name,
+          email: req.body.email,
+          password: generatePassword(12, false),
+          bio: req.body.bio,
+          fone: req.body.fone,
+          address: req.body.address,
+          avatar: req.body.avatar
+        });
+
         if (user) {
           Email.Send(user.email, user.password); //Enviar id do usuario no header da url
         }
@@ -38,7 +47,7 @@ module.exports = {
         });
       }
 
-      return res.json({ error: "Usuário indisponivel" });
+      return res.status(500).json({ error: "Usuário indisponivel" });
     }
 
     return res.send(404);
