@@ -12,19 +12,10 @@ module.exports = {
       postId
     ); /*Retorna os dados do post alvo*/
 
-    if (!targetPost) {
-      return res.status(400).json({
-        error: "Post não existe"
-      }); /*caso o post não exista retorne o status de error*/
+    if (targetPost && loggedUser) {
+      targetPost.dislikes.push(loggedUser._id); /* add dislike */
+      await targetPost.save(); /*slavando post com novo dislike*/
     }
-
-    targetPost.likes.forEach(async item => {
-      // Um usuario só pode dar um dislike
-      if (item != loggedUser._id.toString()) {
-        targetPost.dislikes.push(loggedUser._id); /* add dislike */
-        await targetPost.save(); /*slavando post com novo dislike*/
-      }
-    });
 
     return res.json(targetPost);
   }
