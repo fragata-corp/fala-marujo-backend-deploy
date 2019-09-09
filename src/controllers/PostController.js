@@ -12,19 +12,19 @@ module.exports = {
   },
 
   async store(req, res) {
-    const { user } = req.headers;
-    const userExist = await User.findOne({ _id: user });
-
-    const data = req.body;
-    if (userExist && data) {
-      const post = await Post.create({
-        title: data.title,
-        description: data.description,
-        url: data.url,
-        avatar: data.avatar,
-        author: userExist
-      });
-      return res.json(post);
+    if (req.headers.user) {
+      const userExist = await User.findById(req.headers.user);
+      const data = req.body;
+      if (userExist && data) {
+        const post = await Post.create({
+          title: data.title,
+          description: data.description,
+          url: data.url,
+          avatar: data.avatar,
+          author: userExist._id
+        });
+        return res.json(post);
+      }
     }
   },
   async update(req, res) {
