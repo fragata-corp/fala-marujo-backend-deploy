@@ -4,13 +4,7 @@ const generatePassword = require("password-generator");
 module.exports = {
   async index(req, res) {
     const user = await User.find();
-    return res.json({
-      name: user.name,
-      email: user.email,
-      fone: user.fone,
-      avatar: user.avatar,
-      address: user.address
-    });
+    return res.json(user);
   },
   async show(req, res) {
     const user = await User.findById(req.params.id);
@@ -39,7 +33,6 @@ module.exports = {
 
         if (user) {
           if (Email.Send(user.email, user.password)) {
-            //Enviar id do usuario no header da url
             return res.json({
               ok: true,
               message:
