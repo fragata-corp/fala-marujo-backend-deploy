@@ -21,7 +21,7 @@ module.exports = {
           description: data.description,
           url: data.url,
           avatar: data.avatar,
-          author: userExist
+          author: "5d765cf6f140480021a5f3ab"
         });
         return res.json(post);
       }
