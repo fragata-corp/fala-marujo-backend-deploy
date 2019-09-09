@@ -11,10 +11,15 @@ module.exports = {
     const targetPost = await Post.findById(
       postId
     ); /*Retorna os dados do post alvo*/
+    if (!targetPost) {
+      return res.status(400).json({
+        error: "Post not exists"
+      }); /*caso o usuario não exista retorne o status de error*/
+    }
 
-    if (targetPost && loggedUser) {
+    if (!targetPost.likes.includes(loggedUser._id)) {
       targetPost.likes.push(loggedUser._id); /* add like */
-      await targetPost.save(); /*slavando post com novo like*/
+      await loggedDev.save(); /*slavando user com novo like*/
     }
     return res.json(targetPost);
   }

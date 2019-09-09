@@ -24,12 +24,14 @@ const PostSchema = new Schema(
     },
     likes: [
       {
-        type: String
+        type: Schema.Types.ObjectId /*refernciando ao usuario com id no mongo*/,
+        ref: "Dev"
       }
     ],
     dislikes: [
       {
-        type: String
+        type: Schema.Types.ObjectId /*refernciando ao usuario com id no mongo*/,
+        ref: "Dev"
       }
     ]
   },
