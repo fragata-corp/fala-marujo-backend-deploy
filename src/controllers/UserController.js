@@ -9,6 +9,7 @@ module.exports = {
   async show(req, res) {
     const user = await User.findById(req.params.id);
     return res.json({
+      _id: user._id,
       name: user.name,
       email: user.email,
       fone: user.fone,
