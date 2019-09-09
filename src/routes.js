@@ -20,7 +20,7 @@ routes.delete("/users/:id", UserController.destroy);
 //Post
 routes.get("/posts", PostController.index);
 routes.get("/posts/:id", PostController.show); //id do post
-routes.post("/posts/:id", PostController.store); //id do usuario que fez o post
+routes.post("/posts", PostController.store); //id do usuario que fez o post
 routes.put("/posts/:id", PostController.update); //id do post
 routes.delete("/posts/:id", PostController.destroy); //id do post
 
