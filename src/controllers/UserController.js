@@ -38,13 +38,15 @@ module.exports = {
         });
 
         if (user) {
-          Email.Send(user.email, user.password); //Enviar id do usuario no header da url
+          if (Email.Send(user.email, user.password)) {
+            //Enviar id do usuario no header da url
+            return res.json({
+              ok: true,
+              message:
+                "Usuário cadastrado com sucesso!! Verifique sua caixa de e-mail para continuar"
+            });
+          }
         }
-        return res.json({
-          ok: true,
-          message:
-            "Usuário cadastrado com sucesso!! Verifique sua caixa de e-mail para continuar"
-        });
       }
 
       return res.status(500).json({ error: "Usuário indisponivel" });
