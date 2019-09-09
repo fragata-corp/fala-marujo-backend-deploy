@@ -19,7 +19,7 @@ module.exports = {
 
     if (!targetPost.likes.includes(loggedUser._id)) {
       targetPost.likes.push(loggedUser._id); /* add like */
-      await loggedDev.save(); /*slavando user com novo like*/
+      await targetPost.save(); /*slavando user com novo like*/
     }
     return res.json(targetPost);
   }

@@ -20,7 +20,7 @@ module.exports = {
 
     if (!targetPost.dislikes.includes(loggedUser._id)) {
       targetPost.dislikes.push(loggedUser._id); /* add dislike */
-      await loggedDev.save(); /*slavando user com novo dislike*/
+      await targetPost.save(); /*slavando user com novo dislike*/
     }
     return res.json(targetPost);
   }
