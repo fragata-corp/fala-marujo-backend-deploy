@@ -25,13 +25,13 @@ const PostSchema = new Schema(
     likes: [
       {
         type: Schema.Types.ObjectId /*refernciando ao usuario com id no mongo*/,
-        ref: "Dev"
+        ref: "User"
       }
     ],
     dislikes: [
       {
         type: Schema.Types.ObjectId /*refernciando ao usuario com id no mongo*/,
-        ref: "Dev"
+        ref: "User"
       }
     ]
   },
