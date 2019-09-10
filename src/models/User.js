@@ -50,6 +50,10 @@ UserSchema.pre("save", async function(next) {
   }
 });
 
+UserSchema.pre("update", function() {
+  console.log(this.getConditions()); // Will include `{ field: 'value' }`
+});
+
 //Compara new password com hash criptografada
 
 UserSchema.methods.isValidPassword = async function(newPassword) {
